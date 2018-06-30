@@ -13,6 +13,9 @@ import com.hha.heinhtetaung.charlesandkeith.R;
 import com.hha.heinhtetaung.charlesandkeith.adapters.ItemViewPagerAdapter;
 import com.hha.heinhtetaung.charlesandkeith.data.model.ProductModel;
 import com.hha.heinhtetaung.charlesandkeith.data.vo.NewProductVO;
+import com.hha.heinhtetaung.charlesandkeith.mvp.presenter.ProductDetailPresenter;
+import com.hha.heinhtetaung.charlesandkeith.mvp.presenter.ProductPresenter;
+import com.hha.heinhtetaung.charlesandkeith.mvp.view.ProductDetailview;
 import com.hha.heinhtetaung.charlesandkeith.network.response.GetProductResponse;
 
 import java.util.List;
@@ -27,19 +30,17 @@ import io.reactivex.subjects.PublishSubject;
  * Created by E5 on 6/28/2018.
  */
 
-public class ItemDetailActivity extends AppCompatActivity {
+public class ItemDetailActivity extends AppCompatActivity implements ProductDetailview {
 
 
     @BindView(R.id.vp_news_details_images)
     ViewPager vpNewsDetail;
 
     private ItemViewPagerAdapter mItemViewPagerAdapter;
-    private PublishSubject<GetProductResponse> mPublishSubject;
-    private List<NewProductVO> mNewProductVOS;
+    private ProductDetailPresenter mProductDetailPresenter;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ItemDetailActivity.class);
-//        intent.putExtra("productId", productId);
         return intent;
     }
 
@@ -49,34 +50,22 @@ public class ItemDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_item);
         ButterKnife.bind(this, this);
 
+        mProductDetailPresenter = new ProductDetailPresenter(this);
+        mProductDetailPresenter.onCreat();
+
         mItemViewPagerAdapter = new ItemViewPagerAdapter(getApplicationContext());
         vpNewsDetail.setAdapter(mItemViewPagerAdapter);
 
 
-        mPublishSubject = PublishSubject.create();
+    }
 
-        ProductModel.getObjInstance(getApplicationContext()).startLoadingproduct(mPublishSubject);
-        mPublishSubject.subscribe(new Observer<GetProductResponse>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+    @Override
+    public void displayProductDetail(List<NewProductVO> mNewProductVOS) {
+        mItemViewPagerAdapter.setNewVPList(mNewProductVOS);
+    }
 
-            }
-
-            @Override
-            public void onNext(GetProductResponse getProductResponse) {
-                mItemViewPagerAdapter.setNewVPList(getProductResponse.getNewProducts());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
+    @Override
+    public Context getContext() {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.hha.heinhtetaung.charlesandkeith.data.model;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.hha.heinhtetaung.charlesandkeith.CharlesAndKeithApp;
@@ -41,7 +42,7 @@ public class ProductModel extends BaseModel {
         return objInstance;
     }
 
-    public void startLoadingproduct(final PublishSubject<GetProductResponse> publishSubject) {
+    public void startLoadingproduct(final PublishSubject<GetProductResponse> mPublishSubject) {
         mProductApi.loadProduct(prodcutPageindex, CharlesAndKeithApp.Access_Token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,7 +59,7 @@ public class ProductModel extends BaseModel {
                             mProductVOMap.put(newProductVO.getProudctId(), newProductVO);
 
                         }
-                        publishSubject.onNext(data);
+                        mPublishSubject.onNext(data);
                     }
 
                     @Override
