@@ -11,9 +11,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="@dimen/margin_medium"
+        android:fontFamily="serif-monospace"
         android:text="NEW IN"
         android:textColor="@color/black_full"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_item_name_view"
@@ -22,9 +23,10 @@
         android:layout_below="@id/tv_title"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/margin_medium"
+        android:fontFamily="serif-monospace"
         android:text="Bag"
         android:textColor="@color/black_full"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/iv_item_detail_view"

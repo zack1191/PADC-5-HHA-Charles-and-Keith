@@ -1,5 +1,6 @@
 package com.hha.heinhtetaung.charlesandkeith.mvp.presenter;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.hha.heinhtetaung.charlesandkeith.data.model.ProductModel;
@@ -19,45 +20,25 @@ import io.reactivex.subjects.PublishSubject;
  */
 
 public class ProductPresenter extends BasePresenter<ProductView> implements ItemDelegate {
-    private List<NewProductVO> mProductVOS;
-    private PublishSubject<GetProductResponse> mPublishSubject;
-
-    public ProductPresenter(ProductView view) {
-        super(view);
-    }
+    private MutableLiveData<List<NewProductVO>> mProductLiveData;
+    private MutableLiveData<String> mErrorLd;
 
     @Override
-    public void onCreat() {
-        super.onCreat();
-
-        mPublishSubject = PublishSubject.create();
-        ProductModel.getObjInstance(mView.getContext()).startLoadingproduct(mPublishSubject);
-        mPublishSubject.subscribe(new Observer<GetProductResponse>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(GetProductResponse getProductResponse) {
-                mView.displayProduct(getProductResponse.getNewProducts());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
+    public void initPresenter(ProductView mView) {
+        super.initPresenter(mView);
+        mProductLiveData = new MutableLiveData<>();
+        mErrorLd = new MutableLiveData<>();
+        ProductModel.getObjInstance(mView.getContext()).startLoadingCKProducts(mProductLiveData, mErrorLd);
     }
+
+    public LiveData<List<NewProductVO>> getNewProductLD() {
+        return mProductLiveData;
+    }
+
 
     @Override
     public void onTapItem() {
         mView.launchProductDetail();
     }
+
 }

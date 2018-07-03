@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hha.heinhtetaung.charlesandkeith.R;
-import com.hha.heinhtetaung.charlesandkeith.data.model.ProductModel;
 import com.hha.heinhtetaung.charlesandkeith.data.vo.NewProductVO;
 
 import java.util.ArrayList;
@@ -76,8 +75,8 @@ public class ItemViewPagerAdapter extends PagerAdapter {
     }
 
 
-    public void setNewVPList(List<NewProductVO> newProductVOS) {
-        this.mProductVOS = newProductVOS;
+    public void setProductVp(List<NewProductVO> newProductVOS) {
+        mProductVOS = newProductVOS;
         notifyDataSetChanged();
     }
 

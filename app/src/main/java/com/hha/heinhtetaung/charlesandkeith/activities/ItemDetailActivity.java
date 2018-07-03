@@ -1,5 +1,6 @@
 package com.hha.heinhtetaung.charlesandkeith.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ProductDeta
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ItemDetailActivity.class);
+//        intent.putExtra("productId", productId);
         return intent;
     }
 
@@ -50,8 +52,15 @@ public class ItemDetailActivity extends AppCompatActivity implements ProductDeta
         setContentView(R.layout.activity_detail_item);
         ButterKnife.bind(this, this);
 
-        mProductDetailPresenter = new ProductDetailPresenter(this);
-        mProductDetailPresenter.onCreat();
+        mProductDetailPresenter = ViewModelProviders.of(this).get(ProductDetailPresenter.class);
+        mProductDetailPresenter.initPresenter(this);
+
+        mProductDetailPresenter.getProductDetail().observe(this, new android.arch.lifecycle.Observer<List<NewProductVO>>() {
+            @Override
+            public void onChanged(@Nullable List<NewProductVO> productVOS) {
+                displayProductDetail(productVOS);
+            }
+        });
 
         mItemViewPagerAdapter = new ItemViewPagerAdapter(getApplicationContext());
         vpNewsDetail.setAdapter(mItemViewPagerAdapter);
@@ -59,13 +68,14 @@ public class ItemDetailActivity extends AppCompatActivity implements ProductDeta
 
     }
 
-    @Override
+
     public void displayProductDetail(List<NewProductVO> mNewProductVOS) {
-        mItemViewPagerAdapter.setNewVPList(mNewProductVOS);
+        mItemViewPagerAdapter.setProductVp(mNewProductVOS);
     }
 
     @Override
     public Context getContext() {
         return null;
     }
+
 }

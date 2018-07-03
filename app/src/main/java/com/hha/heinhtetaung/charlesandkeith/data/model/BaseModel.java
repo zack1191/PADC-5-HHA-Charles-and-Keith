@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.hha.heinhtetaung.charlesandkeith.network.ProductApi;
+import com.hha.heinhtetaung.charlesandkeith.persistence.database.AppDatabase;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public abstract class BaseModel {
 
     protected ProductApi mProductApi;
+    protected AppDatabase mDatabase;
+
 
     protected BaseModel(Context context) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -35,6 +38,8 @@ public abstract class BaseModel {
                 .build();
 
         mProductApi = retrofit.create(ProductApi.class);
+        mDatabase = AppDatabase.getObjInstance(context);
+
     }
 
 }

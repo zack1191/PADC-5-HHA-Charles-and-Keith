@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface ProductDetailview extends BaseView {
-    void displayProductDetail(List<NewProductVO> newProductVOS);
+
 }

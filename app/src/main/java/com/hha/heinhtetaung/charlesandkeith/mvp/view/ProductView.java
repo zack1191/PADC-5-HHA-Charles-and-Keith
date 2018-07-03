@@ -9,7 +9,6 @@ import java.util.List;
  */
 
 public interface ProductView extends BaseView {
-    void displayProduct(List<NewProductVO> productVOS);
 
     void launchProductDetail();
 }
